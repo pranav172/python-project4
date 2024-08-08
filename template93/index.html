@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artist Tracks Search</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Artist Tracks Search</h1>
+        <form action="/" method="post">
+            <input type="text" id="artist" name="artist" value="{{ artist }}" required placeholder="Enter artist name">
+            <button type="submit">Search</button>
+        </form>
+        
+        <div class="tracks">
+            {% if tracks %}
+                {% for track in tracks %}
+                    <div class="track">
+                        <h2>{{ track.name }}</h2>
+                        <p>Album: {{ track.album.name }}</p>
+                        {% if track.preview_url %}
+                            <audio controls>
+                                <source src="{{ track.preview_url }}" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        {% else %}
+                            <p>No preview available for this track.</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% elif artist %}
+                <p>No tracks found for "{{ artist }}". Please try a different artist name or check the spelling.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2024 Artist Tracks Search. All rights reserved.</p>
+    </footer>
+</body>
+</html>
